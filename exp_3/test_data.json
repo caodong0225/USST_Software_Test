@@ -1,0 +1,18 @@
+{
+  "login": {
+    "username": "admin",
+    "password": "Admin123"
+  },
+  "bug_cases": [
+    {
+      "belong_to": "测试项目2",
+      "belong_module": "/test1",
+      "influenced_version": "主干",
+      "bug_title": "用户界面",
+      "steps": "这是测试消息",
+      "bug_type": "v2.1.0",
+      "risk_level": "前端团队",
+      "priority": ""
+    }
+  ]
+}

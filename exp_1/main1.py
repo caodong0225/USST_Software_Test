@@ -17,13 +17,16 @@ my_password = '123456'
 search_username = "test1"
 
 try:
-    # 获取126官网
     driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
     driver.get("http://localhost/admin")
+    # 用户名输入框
     username_inp = driver.find_element(By.XPATH, '//input[@placeholder="请输入用户名"]')
+    # 密码输入框
     password_inp = driver.find_element(By.XPATH, '//input[@placeholder="请输入密码"]')
+    # 发送数据
     username_inp.send_keys(my_username)
     password_inp.send_keys(my_password)
+    # 提交按钮
     submit_button = driver.find_element(By.XPATH, '//button')
     submit_button.click()
     # 等待页面加载完成
@@ -32,6 +35,7 @@ try:
     # 等待登录成功提示框消失
     WebDriverWait(driver, 10).until(
         EC.invisibility_of_element_located((By.XPATH, '//div[@style="top: 20px; z-index: 2000;"]')))
+    # 切换到用户页面
     for menu in menus:
         if menu.text == '用户':
             menu.click()

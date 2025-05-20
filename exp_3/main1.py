@@ -1,7 +1,7 @@
 # main1.py
 import json
+import time
 import unittest
-from time import sleep
 from ddt import ddt, data, unpack
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -19,14 +19,15 @@ class ZenTaoBugTest(LoginFixture):
 
     @data(*_test_data["bug_cases"])
     @unpack
-    def test_create_bug(self, belong_to, belong_module, influenced_version, bug_title,steps, bug_type, risk_level,
-                        priority):
+    def test_create_bug(self, belong_to, belong_module, influenced_version, bug_title,steps):
         """Bug创建测试用例"""
+        self.driver.get(self.BASE_URL)  # 回到首页（每次从首页开始）
         # 进入测试模块
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//li[@data-app="qa"]'))
         ).click()
 
+        time.sleep(1)
         # 切换到iframe
         self.driver.switch_to.frame("appIframe-qa")
         WebDriverWait(self.driver, 10).until(
@@ -39,15 +40,13 @@ class ZenTaoBugTest(LoginFixture):
         ).click()
 
         # 下拉框列表
-        self._select_dropdown('//div[@id="pick-_pick112"]', '//li[@class="menu-item item"]', belong_to)
+        self._select_dropdown('//div[@id="zin_bug_create_picker_product"]', '//li[@class="menu-item item"]', belong_to)
 
         # 选择所属模块
         self._select_dropdown('//div[@id="moduleBox"]', '//li[@class="menu-item item"]', belong_module)
 
-        self._select_dropdown('//div[@data-name="openedBuild"]//div[@id="pick-_pick212"]',
+        self._select_dropdown('//div[@data-name="openedBuild"]//div[@class="form-group-wrapper picker-box"]//div',
                               '//li[@class="menu-item item"]', influenced_version)
-
-
 
         # 填写表单操作...
         self._fill_input('//input[@id="zin_bug_create_colorInput"]', bug_title)
@@ -62,8 +61,6 @@ class ZenTaoBugTest(LoginFixture):
         element.send_keys(Keys.DELETE)  # 删除
         element.send_keys(steps)
 
-        sleep(10)
-
         # ...其他字段操作...
 
         # 提交验证
@@ -71,9 +68,9 @@ class ZenTaoBugTest(LoginFixture):
             EC.presence_of_element_located((By.XPATH, '//div[@data-side="bottom"]//button[@class="toolbar-item btn primary"]'))
         ).click()
         success_msg = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, '//div[contains(@class, "alert-success")]'))
+            EC.visibility_of_element_located((By.XPATH, '//div[@class="alert messager messager-lite success fade-from-top in"]'))
         )
-        self.assertIn("创建成功", success_msg.text)
+        self.assertIn("保存成功", success_msg.text)
 
     # 工具方法保持不变
     def _fill_input(self, xpath, text):
@@ -83,7 +80,7 @@ class ZenTaoBugTest(LoginFixture):
         element.send_keys(text)
 
     def _select_dropdown(self, xpath, list_xpath, option_text):
-        sleep(2)
+        time.sleep(1)
         # 点击下拉框
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, xpath))
@@ -103,4 +100,4 @@ class ZenTaoBugTest(LoginFixture):
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=1)
+    unittest.main(verbosity=2)

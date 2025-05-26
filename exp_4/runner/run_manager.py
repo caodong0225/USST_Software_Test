@@ -17,7 +17,7 @@ class RunManager:
         os.system(cmd)
 
     def run_and_create_report(self):
-        files = ["../testcases/test_register.py"]
+        files = ["../testcases/test_register.py","../testcases/test_post.py"]
         with Pool(1) as pool:
             pool.map(self.run_pytest, files)
         os.path.abspath(__file__)
@@ -29,5 +29,5 @@ if __name__ == "__main__":
 
     # 发送邮件
 
-    # email_sender = SendEmail()
-    # email_sender.run()
+    email_sender = SendEmail()
+    email_sender.run()

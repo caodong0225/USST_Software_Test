@@ -1,4 +1,0 @@
-title,content
-test,<script>alert('xss')</script>
-test-user-1,test-user-1
-test-user-4,test-user-4

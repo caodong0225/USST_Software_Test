@@ -1,0 +1,5 @@
+[
+["test-user-1","test-user-1","test-user-1","test-user-1","用户名 已经存在。"],
+["test-user-1","test-user-1","test-user-2","test-user-1","两次输入的密码不一致"],
+["test-user-4","test-user-4","test-user-4","test-user-4","注册成功"]
+]

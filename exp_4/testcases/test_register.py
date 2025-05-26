@@ -15,15 +15,16 @@ class TestRegister():
         self.driver = driver  # 保留 driver 引用（可选）
 
     @allure.story("正常注册")
+    @allure.title("注册用户")
     @pytest.mark.parametrize(
         'username, password, re_password, nickname, expect',
-        data_manager.get_data_csv("D://pythonproject//software_test//exp_4//register.csv")
+        data_manager.get_data_json("D://pythonproject//software_test//exp_4//register.json")
     )
     def test_01_reg(self, username, password, re_password, nickname,expect):
         reg_page = self.main_page.go_to_reg()
         reg_page.reg_user(username=username, password=password, re_password=re_password, nickname=nickname,expect=expect)
         reg_page.del_cookie()
-        time.sleep(1)
+        time.sleep(2)
 
 
 if __name__ == '__main__':

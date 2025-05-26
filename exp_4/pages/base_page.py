@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class BasePage():
     user_info = '//div[@class="dzq-dropdown"]'
     success_info = '//div[@class="_34kcWYQLB3ftXDR3FgEWAk"]'
+    _404 = '//img[@class="_26tKvvzLDZVTZTSvKQx3x5"]'
 
     def __init__(self, driver):  # 通过构造函数接收 driver
         self.driver = driver
@@ -47,3 +48,10 @@ class BasePage():
             return True
         except:
             return False
+
+    def is_404(self):
+        try:
+            WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, self._404)))
+            return False
+        except:
+            return True

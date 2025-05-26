@@ -5,6 +5,7 @@ import allure
 
 from data.data_manager import data_manager
 
+
 @allure.feature("发帖功能")
 class TestPost:
     @pytest.fixture(autouse=True)  # 作用域改为整个测试类
@@ -13,16 +14,15 @@ class TestPost:
         from pages.main_page import MainPage
         self.driver = driver
 
-
         self.main_page = MainPage(driver)
         if self.main_page.is_logged_in():
             from pages.main_login_page import MainLoginPage
-            main_login_page = MainLoginPage(self.driver)
-            self.post_page = main_login_page.go_to_post()
+            self.main_login_page = MainLoginPage(self.driver)
+            self.post_page = self.main_login_page.go_to_post()
         else:
-            main_login_page = self.main_page.finish_login('admin', 'Admin123')
+            self.main_login_page = self.main_page.finish_login('admin', 'Admin123')
             # 登录一次并缓存结果
-            self.post_page = main_login_page.go_to_post()
+            self.post_page = self.main_login_page.go_to_post()
         yield
 
     @allure.story("正常流程发帖")
@@ -37,3 +37,14 @@ class TestPost:
         time.sleep(1)
         self.post_page.back_to_main()
 
+    @allure.story("正常点赞发帖")
+    @allure.title("登录后回复新帖子")
+    @pytest.mark.parametrize(
+        'id, content',
+        data_manager.get_data_csv("D://pythonproject//software_test//exp_4//reply.csv")
+    )
+    def test_like_reply_post(self, id, content):
+        reply_page = self.main_login_page.like_and_reply(id=id)
+        reply_page.like()
+        reply_page.reply(content=content)
+        reply_page.back_to_main()

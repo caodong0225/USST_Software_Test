@@ -58,6 +58,6 @@ try:
             operation.click()
 
 
-    sleep(10)
+    sleep(5)
 except Exception as e:
     print(e)

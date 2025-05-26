@@ -41,10 +41,7 @@ try:
             menu.click()
             break
 
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@header="用户昵称："]//input')))
-    # 查找用户
-    find_username = driver.find_element(By.XPATH, '//div[@header="用户名称："]//input')
-    find_username.send_keys(search_username)
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@header="用户昵称："]//input'))).send_keys(search_username)
 
     # 进行搜索
     search_button = driver.find_element(By.XPATH, '//button[@class="el-button el-button--primary el-button--medium"]')
@@ -58,6 +55,6 @@ try:
             operation.click()
 
 
-    sleep(10)
+    sleep(5)
 except Exception as e:
     print(e)

@@ -1,9 +1,11 @@
 # test_register.py
 import time
+
+import allure
 import pytest
 from data.data_manager import data_manager
 
-
+@allure.feature("注册功能")
 class TestRegister():
     @pytest.fixture(autouse=True)
     def setup(self, driver):
@@ -12,6 +14,7 @@ class TestRegister():
         self.main_page = MainPage(driver)
         self.driver = driver  # 保留 driver 引用（可选）
 
+    @allure.story("正常注册")
     @pytest.mark.parametrize(
         'username, password, re_password, nickname, expect',
         data_manager.get_data_csv("D://pythonproject//software_test//exp_4//register.csv")
@@ -22,11 +25,8 @@ class TestRegister():
         reg_page.del_cookie()
         time.sleep(1)
 
-    def test_02_login(self):
-        login_page = self.main_page.go_to_login()
-        login_page.del_cookie()
-        time.sleep(1)
-
 
 if __name__ == '__main__':
-    pytest.main()
+    # 运行测试（替代直接调用 pytest）
+    pytest.main(["-v", "--alluredir=../report/result"])
+

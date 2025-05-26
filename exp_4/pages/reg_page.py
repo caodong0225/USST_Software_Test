@@ -15,5 +15,5 @@ class RegPage(BasePage):
         self.fill_blank(self.re_password, re_password)
         self.fill_blank(self.nickname, nickname)
         self.click_element(self.register_button)
-        res = self.find_element_xpath(self.response).text
+        res = self.find_element_visible_xpath(self.response).text
         assert res == expect
